@@ -2,130 +2,613 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>업데이트된 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>스테이션 스테이지</title>
+    
+    <!-- 🔥 파이어베이스 라이브러리 로드 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
     <style>
         body {
-            font-family: 'Pretendard', sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
-        /* 최상단 메시지 입력 칸 */
-        .message-container {
-            margin-bottom: 30px;
-        }
-        .message-input {
-            width: 80%;
-            max-width: 500px;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        /* 팝업 버튼들 */
-        .button-container {
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            color: #f8fafc;
+            font-family: 'Noto Sans KR', sans-serif;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        .popup-btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .popup-btn:hover {
-            background-color: #0056b3;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 팝업 스타일 */
-        .popup-overlay {
-            display: none;
+        /* 🌟 최상단 메시지 입력 칸 스타일 (기존 UI 테마에 맞춤) */
+        .top-message-container {
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 30px;
+        }
+        .top-message-input {
+            width: 100%;
+            background-color: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            padding: 16px 20px;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .top-message-input:focus {
+            border-color: #3b82f6;
+            background-color: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+        .top-message-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .main-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #f8fafc;
+        }
+
+        .sub-title {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .station-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .station-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .station-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-A:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.15); }
+        .card-B:hover { border-color: #ec4899; background: rgba(236, 72, 153, 0.15); }
+        .card-C:hover { border-color: #10b981; background: rgba(16, 185, 129, 0.15); }
+        .card-D:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.15); }
+
+        .station-card h3 { margin: 0 0 10px 0; font-size: 1.3rem; }
+        .station-card p { margin: 0; font-size: 0.9rem; color: #94a3b8; }
+
+        .modal-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
             justify-content: center;
             align-items: center;
-        }
-        .popup-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            min-width: 300px;
-        }
-        .close-btn {
-            margin-top: 20px;
-            padding: 8px 16px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        /* BGM 플레이어 (숨김 처리 또는 작게 표시) */
-        .bgm-container {
-            margin-top: 50px;
+        .modal-content {
+            width: 100%;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            box-sizing: border-box;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            animation: modalFadeIn 0.25s ease-out;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            cursor: pointer;
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            transition: all 0.2s;
+        }
+        .close-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.2); }
+
+        .theme-A { background: #0f172a; border: 2px solid #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3); }
+        .theme-A h2 { color: #60a5fa; margin-top: 0; }
+
+        .theme-B { background: #180d1e; border: 2px solid #ec4899; box-shadow: 0 0 30px rgba(236, 72, 153, 0.3); }
+        .theme-B h2 { color: #f472b6; margin-top: 0; }
+
+        .theme-C { background: #06201b; border: 2px solid #10b981; box-shadow: 0 0 30px rgba(16, 185, 129, 0.3); }
+        .theme-C h2 { color: #34d399; margin-top: 0; }
+
+        .theme-D { background: #1c1917; border: 2px solid #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.3); }
+        .theme-D h2 { color: #fbbf24; margin-top: 0; }
+
+        /* 🎵 재생 버튼 스타일 */
+        .bgm-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .bgm-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .message-display {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+            word-break: break-word;
+        }
+
+        .comment-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comment-form { display: flex; gap: 8px; margin-bottom: 12px; }
+
+        .comment-input {
+            flex: 1;
+            background-color: rgba(15, 23, 42, 0.8);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .comment-submit {
+            background-color: #1e293b;
+            color: #93c5fd;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 0 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .comment-list-wrapper {
+            display: none;
+            margin-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        .comment-list { display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; }
+        .comment-item { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; }
+        .comment-header { display: flex; justify-content: space-between; font-size: 0.8rem; color: #64748b; margin-bottom: 4px; }
+        .comment-delete-btn { background: none; border: none; color: #f43f5e; cursor: pointer; padding: 2px 6px; }
+        .comment-text { font-size: 0.9rem; color: #e2e8f0; word-break: break-all; }
+
+        .admin-toggle-wrapper { text-align: center; margin-top: 30px; }
+        .admin-toggle-btn { background: none; border: none; color: #475569; font-size: 0.85rem; cursor: pointer; padding: 10px; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+        .hidden-player { position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; }
+
+        @media (max-width: 600px) {
+            body { padding: 30px 16px; }
+            .top-message-input { padding: 14px 16px; font-size: 0.95rem; }
+            .main-title { font-size: 1.5rem; }
+            .sub-title { font-size: 0.85rem; margin-bottom: 25px; }
+            .station-grid { grid-template-columns: 1fr; gap: 12px; }
+            .station-card { padding: 20px 16px; }
+            .station-card h3 { font-size: 1.15rem; }
+            .modal-overlay { padding: 12px; }
+            .modal-content { padding: 24px 18px 18px 18px; max-height: 90vh; border-radius: 16px; }
+            .modal-content h2 { font-size: 1.3rem; padding-right: 30px; }
+            .close-btn { top: 16px; right: 16px; width: 32px; height: 32px; font-size: 1.2rem; }
+            .message-display { padding: 14px; font-size: 0.92rem; max-height: 180px; }
+            .comment-section { padding: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. 최상단 메시지 입력 칸 -->
-    <div class="message-container">
-        <input type="text" class="message-input" placeholder="여기에 메시지를 적어주세요...">
+    <!-- ✅ 1. 최상단 메시지 입력 칸 추가 -->
+    <div class="top-message-container">
+        <input type="text" class="top-message-input" placeholder="여기에 하고 싶은 말을 적어보세요..." />
     </div>
 
-    <!-- 2. 4개로 줄어든 팝업 버튼 -->
-    <div class="button-container">
-        <button class="popup-btn" onclick="openPopup(1)">팝업 1 열기</button>
-        <button class="popup-btn" onclick="openPopup(2)">팝업 2 열기</button>
-        <button class="popup-btn" onclick="openPopup(3)">팝업 3 열기</button>
-        <button class="popup-btn" onclick="openPopup(4)">팝업 4 열기</button>
-    </div>
+    <h1 class="main-title">✨ 나만의 이야기 스테이션</h1>
+    <p class="sub-title">원하는 카드를 클릭하여 팝업창을 열어보세요.</p>
 
-    <!-- 팝업 오버레이 -->
-    <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-content">
-            <h2 id="popupTitle">팝업 제목</h2>
-            <p id="popupDesc">팝업 내용입니다.</p>
-            <button class="close-btn" onclick="closePopup()">닫기</button>
+    <!-- ✅ 2. 스테이션 카드 4개로 축소 (E 삭제) -->
+    <div class="station-grid">
+        <div class="station-card card-A" onclick="openModal('A')">
+            <h3>📝 첫 번째 이야기</h3>
+            <p>클릭하여 펼치기</p>
+        </div>
+        <div class="station-card card-B" onclick="openModal('B')">
+            <h3>💌 두 번째 이야기</h3>
+            <p>클릭하여 펼치기</p>
+        </div>
+        <div class="station-card card-C" onclick="openModal('C')">
+            <h3>✨ 세 번째 이야기</h3>
+            <p>클릭하여 펼치기</p>
+        </div>
+        <div class="station-card card-D" onclick="openModal('D')">
+            <h3>💡 네 번째 이야기</h3>
+            <p>클릭하여 펼치기</p>
         </div>
     </div>
 
-    <!-- 3. 변경된 BGM (YouTube Embed) -->
-    <div class="bgm-container">
-        <p>🎵 BGM: Daniel Caesar - Superpowers</p>
-        <!-- 자동 재생을 위해 autoplay=1 추가 (브라우저 정책에 따라 클릭 후 재생될 수 있음) -->
-        <iframe width="300" height="80" 
-            src="https://www.youtube.com/embed/rScwLoES2bM?list=RDrScwLoES2bM&autoplay=1" 
-            title="YouTube video player" frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
+    <div class="admin-toggle-wrapper">
+        <button id="admin-login-btn" class="admin-toggle-btn">🔒 관리자 로그인</button>
+        <button id="admin-logout-btn" class="admin-toggle-btn" style="display: none; color: #f43f5e;">🔓 로그아웃</button>
     </div>
 
+    <!-- 팝업 모달 목록 -->
+    <!-- 모달 A -->
+    <div id="modal-A" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'A')">
+        <div class="modal-content theme-A">
+            <span class="close-btn" onclick="closeModal('A')">&times;</span>
+            <h2>✨ 첫 번째 이야기</h2>
+            <button id="bgm-btn-A" class="bgm-btn" onclick="toggleBgm('A')">▶️ BGM 재생</button>
+            <div class="message-display">첫 번째 팝업창 공간입니다.</div>
+            <div class="comment-section">
+                <div class="comment-form">
+                    <input type="text" id="comment-text-A" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <button id="submit-btn-A" class="comment-submit" onclick="submitComment('A', 'comments_A')">등록</button>
+                </div>
+                <div id="admin-list-wrapper-A" class="comment-list-wrapper">
+                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <div id="comment-list-A" class="comment-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 B -->
+    <div id="modal-B" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'B')">
+        <div class="modal-content theme-B">
+            <span class="close-btn" onclick="closeModal('B')">&times;</span>
+            <h2>💌 두 번째 이야기</h2>
+            <button id="bgm-btn-B" class="bgm-btn" onclick="toggleBgm('B')">▶️ BGM 재생</button>
+            <div class="message-display">두 번째 팝업창 공간입니다.</div>
+            <div class="comment-section">
+                <div class="comment-form">
+                    <input type="text" id="comment-text-B" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <button id="submit-btn-B" class="comment-submit" onclick="submitComment('B', 'comments_B')">등록</button>
+                </div>
+                <div id="admin-list-wrapper-B" class="comment-list-wrapper">
+                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <div id="comment-list-B" class="comment-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 C -->
+    <div id="modal-C" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'C')">
+        <div class="modal-content theme-C">
+            <span class="close-btn" onclick="closeModal('C')">&times;</span>
+            <h2>✨ 세 번째 이야기</h2>
+            <button id="bgm-btn-C" class="bgm-btn" onclick="toggleBgm('C')">▶️ BGM 재생</button>
+            <div class="message-display">세 번째 팝업창 공간입니다.</div>
+            <div class="comment-section">
+                <div class="comment-form">
+                    <input type="text" id="comment-text-C" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <button id="submit-btn-C" class="comment-submit" onclick="submitComment('C', 'comments_C')">등록</button>
+                </div>
+                <div id="admin-list-wrapper-C" class="comment-list-wrapper">
+                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <div id="comment-list-C" class="comment-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 D -->
+    <div id="modal-D" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'D')">
+        <div class="modal-content theme-D">
+            <span class="close-btn" onclick="closeModal('D')">&times;</span>
+            <h2>💡 네 번째 이야기</h2>
+            <button id="bgm-btn-D" class="bgm-btn" onclick="toggleBgm('D')">▶️ BGM 재생</button>
+            <div class="message-display">네 번째 팝업창 공간입니다.</div>
+            <div class="comment-section">
+                <div class="comment-form">
+                    <input type="text" id="comment-text-D" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <button id="submit-btn-D" class="comment-submit" onclick="submitComment('D', 'comments_D')">등록</button>
+                </div>
+                <div id="admin-list-wrapper-D" class="comment-list-wrapper">
+                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <div id="comment-list-D" class="comment-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 보이지 않는 유튜브 플레이어 -->
+    <div id="yt-player" class="hidden-player"></div>
+
     <script>
-        function openPopup(num) {
-            document.getElementById('popupTitle').innerText = '팝업 ' + num;
-            document.getElementById('popupDesc').innerText = '이것은 ' + num + '번째 팝업입니다.';
-            document.getElementById('popupOverlay').style.display = 'flex';
+        // ✅ 3. BGM 리스트 수정 (A번 방 노래 교체, E번 방 삭제)
+        const bgmList = {
+            'A': 'rScwLoES2bM', // Daniel Caesar - Superpowers
+            'B': 'QaqakjrT5nY', 
+            'C': 'gMjU5XJnc7E', 
+            'D': 'futqIdI0rOY'
+        };
+
+        var player;
+        var isPlayerReady = false;
+
+        // 유튜브 API 로드
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '1', width: '1', 
+                playerVars: { 
+                    'autoplay': 0, 
+                    'controls': 0 
+                },
+                events: {
+                    'onReady': function() { isPlayerReady = true; },
+                    'onStateChange': function(event) {
+                        if (event.data === YT.PlayerState.ENDED) {
+                            player.playVideo();
+                        }
+                    }
+                }
+            });
         }
 
-        function closePopup() {
-            document.getElementById('popupOverlay').style.display = 'none';
+        let activeModal = null;
+
+        function openModal(sectionCode) {
+            if(activeModal) closeModal(activeModal);
+
+            activeModal = sectionCode;
+            document.getElementById('modal-' + sectionCode).style.display = 'flex';
+
+            if(isPlayerReady && bgmList[sectionCode]) {
+                player.cueVideoById(bgmList[sectionCode]);
+                document.getElementById('bgm-btn-' + sectionCode).innerText = "▶️ BGM 재생";
+            }
         }
+
+        function closeModal(sectionCode) {
+            document.getElementById('modal-' + sectionCode).style.display = 'none';
+            activeModal = null;
+
+            if(isPlayerReady && player.stopVideo) {
+                player.stopVideo();
+                document.getElementById('bgm-btn-' + sectionCode).innerText = "▶️ BGM 재생";
+            }
+        }
+
+        function closeModalOnOuterClick(event, sectionCode) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(sectionCode);
+            }
+        }
+
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && activeModal) {
+                closeModal(activeModal);
+            }
+        });
+
+        function toggleBgm(sectionCode) {
+            if (!isPlayerReady) {
+                alert("음악 플레이어를 불러오는 중입니다. 잠시만 기다려주세요.");
+                return;
+            }
+            
+            let state = player.getPlayerState();
+            let btn = document.getElementById('bgm-btn-' + sectionCode);
+            
+            if (state === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                btn.innerText = "▶️ BGM 재생";
+            } else {
+                player.playVideo();
+                btn.innerText = "⏸️ BGM 일시정지";
+            }
+        }
+
+        // Firebase 설정 
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKmo57nKqIpRQvoPOUFtYHXZE2IpcHzbY",
+            authDomain: "website-32a82.firebaseapp.com",
+            databaseURL: "https://website-32a82-default-rtdb.firebaseio.com",
+            projectId: "website-32a82",
+            storageBucket: "website-32a82.firebasestorage.app",
+            messagingSenderId: "51412253738",
+            appId: "1:51412253738:web:018218156cc35b11869753"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth(); 
+
+        const allSections = ['A', 'B', 'C', 'D']; // E 삭제
+
+        auth.onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('admin-login-btn').style.display = 'none';
+                document.getElementById('admin-logout-btn').style.display = 'inline-block';
+                
+                allSections.forEach(function(section) {
+                    document.getElementById('admin-list-wrapper-' + section).style.display = 'block';
+                    document.getElementById('comment-list-' + section).innerHTML = ''; 
+                    loadCommentsRealtime(section, 'comments_' + section);
+                });
+            } else {
+                document.getElementById('admin-login-btn').style.display = 'inline-block';
+                document.getElementById('admin-logout-btn').style.display = 'none';
+                
+                allSections.forEach(function(section) {
+                    document.getElementById('admin-list-wrapper-' + section).style.display = 'none';
+                    document.getElementById('comment-list-' + section).innerHTML = ''; 
+                    database.ref('comments_' + section).off();
+                });
+            }
+        });
+
+        document.getElementById('admin-login-btn').addEventListener('click', function() {
+            var email = prompt("관리자 이메일을 입력하세요:");
+            if (!email) return;
+            var password = prompt("관리자 비밀번호를 입력하세요:");
+            if (!password) return;
+
+            auth.signInWithEmailAndPassword(email, password)
+            .catch(function(error) { 
+                if (error.code === 'auth/unauthorized-domain') {
+                    alert("⚠️ [GitHub Pages 오류]\n현재 도메인이 Firebase 승인 도메인에 등록되지 않았습니다.");
+                } else {
+                    alert("로그인 실패: 이메일 또는 비밀번호를 확인해주세요."); 
+                }
+            });
+        });
+
+        document.getElementById('admin-logout-btn').addEventListener('click', function() {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                auth.signOut().then(function() { alert("로그아웃 되었습니다."); });
+            }
+        });
+
+        function loadCommentsRealtime(sectionCode, dbPath) {
+            const dbRef = database.ref(dbPath);
+            dbRef.off();
+
+            dbRef.orderByChild('timestamp').on('child_added', function(snapshot) {
+                const commentId = snapshot.key;
+                const data = snapshot.val();
+                
+                var newComment = document.createElement('div');
+                newComment.className = 'comment-item';
+                newComment.id = 'comment-' + sectionCode + '-' + commentId; 
+                
+                const date = new Date(data.timestamp).toLocaleString('ko-KR', { hour12: true, month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' });
+                const safeText = data.text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+                newComment.innerHTML = `
+                    <div class="comment-header">
+                        <span>익명 · ${date}</span>
+                        <button class="comment-delete-btn" onclick="deleteComment('${dbPath}', '${commentId}', '${sectionCode}')">❌ 삭제</button>
+                    </div>
+                    <div class="comment-text">${safeText}</div>
+                `;
+                
+                var list = document.getElementById('comment-list-' + sectionCode);
+                list.insertBefore(newComment, list.firstChild); 
+            });
+
+            dbRef.on('child_removed', function(snapshot) {
+                const commentId = snapshot.key;
+                const targetElement = document.getElementById('comment-' + sectionCode + '-' + commentId);
+                if (targetElement) targetElement.remove();
+            });
+        }
+
+        function deleteComment(dbPath, commentId, sectionCode) {
+            if (!auth.currentUser) return;
+            if (confirm("이 댓글을 삭제하시겠습니까?")) {
+                database.ref(dbPath).child(commentId).remove();
+            }
+        }
+
+        function submitComment(sectionCode, dbPath) {
+            var input = document.getElementById('comment-text-' + sectionCode);
+            var button = document.getElementById('submit-btn-' + sectionCode);
+            var text = input.value.trim();
+            
+            if(text === "") {
+                alert("내용을 입력해주세요.");
+                return;
+            }
+
+            database.ref(dbPath).push({
+                text: text,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            }, function(error) {
+                if (!error) {
+                    input.value = ""; 
+                    button.innerText = "✅ 완료";
+                    button.disabled = true; 
+                    setTimeout(function() {
+                        button.innerText = "등록";
+                        button.disabled = false;
+                    }, 1500);
+                } else {
+                    alert("댓글 등록에 실패했습니다. Firebase 데이터베이스 권한을 확인해주세요.");
+                }
+            });
+        }
+
+        allSections.forEach(function(sectionCode) {
+            const dbPath = 'comments_' + sectionCode;
+            document.getElementById('comment-text-' + sectionCode).addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); 
+                    submitComment(sectionCode, dbPath);
+                }
+            });
+        });
     </script>
 </body>
 </html>
