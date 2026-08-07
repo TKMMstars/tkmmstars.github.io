@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>스테이션</title>
+    <title>스테이션 스테이지</title>
     
     <!-- 🔥 파이어베이스 라이브러리 로드 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -135,6 +135,23 @@
         .theme-E { background: #120e24; border: 2px solid #8b5cf6; box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
         .theme-E h2 { color: #a78bfa; margin-top: 0; }
 
+        /* 🎵 재생 버튼 스타일 추가 */
+        .bgm-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .bgm-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
         .message-display {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -148,15 +165,6 @@
             max-height: 250px;
             overflow-y: auto;
             word-break: break-word;
-        }
-
-        .bgm-status {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .comment-section {
@@ -262,11 +270,12 @@
     </div>
 
     <!-- 팝업 모달 목록 -->
+    <!-- 각 모달 안에 재생 버튼을 추가했습니다. -->
     <div id="modal-A" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'A')">
         <div class="modal-content theme-A">
             <span class="close-btn" onclick="closeModal('A')">&times;</span>
             <h2>✨ 첫 번째 이야기</h2>
-            <div class="bgm-status">🎵 배경음악 재생 중</div>
+            <button id="bgm-btn-A" class="bgm-btn" onclick="toggleBgm('A')">▶️ BGM 재생</button>
             <div class="message-display">첫 번째 팝업창 공간입니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
@@ -285,7 +294,7 @@
         <div class="modal-content theme-B">
             <span class="close-btn" onclick="closeModal('B')">&times;</span>
             <h2>💌 두 번째 이야기</h2>
-            <div class="bgm-status">🎵 배경음악 재생 중</div>
+            <button id="bgm-btn-B" class="bgm-btn" onclick="toggleBgm('B')">▶️ BGM 재생</button>
             <div class="message-display">두 번째 팝업창 공간입니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
@@ -304,7 +313,7 @@
         <div class="modal-content theme-C">
             <span class="close-btn" onclick="closeModal('C')">&times;</span>
             <h2>✨ 세 번째 이야기</h2>
-            <div class="bgm-status">🎵 배경음악 재생 중</div>
+            <button id="bgm-btn-C" class="bgm-btn" onclick="toggleBgm('C')">▶️ BGM 재생</button>
             <div class="message-display">세 번째 팝업창 공간입니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
@@ -323,7 +332,7 @@
         <div class="modal-content theme-D">
             <span class="close-btn" onclick="closeModal('D')">&times;</span>
             <h2>💡 네 번째 이야기</h2>
-            <div class="bgm-status">🎵 배경음악 재생 중</div>
+            <button id="bgm-btn-D" class="bgm-btn" onclick="toggleBgm('D')">▶️ BGM 재생</button>
             <div class="message-display">네 번째 팝업창 공간입니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
@@ -342,7 +351,7 @@
         <div class="modal-content theme-E">
             <span class="close-btn" onclick="closeModal('E')">&times;</span>
             <h2>🌟 다섯 번째 이야기</h2>
-            <div class="bgm-status">🎵 배경음악 재생 중</div>
+            <button id="bgm-btn-E" class="bgm-btn" onclick="toggleBgm('E')">▶️ BGM 재생</button>
             <div class="message-display">다섯 번째 팝업창 공간입니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
@@ -360,18 +369,19 @@
     <div id="yt-player" class="hidden-player"></div>
 
     <script>
+        // 🎵 요청하신 URL들의 고유 비디오 ID로 교체 완료
         const bgmList = {
-            'A': 'ajDAmJYPQ-U',
-            'B': 'dQw4w9WgXcQ',
-            'C': 'ajDAmJYPQ-U',
-            'D': 'ajDAmJYPQ-U',
-            'E': 'ajDAmJYPQ-U'
+            'A': 'gq3gzxPBOK0', // https://youtu.be/gq3gzxPBOK0
+            'B': 'QaqakjrT5nY', // https://youtu.be/QaqakjrT5nY
+            'C': 'gMjU5XJnc7E', // https://youtu.be/gMjU5XJnc7E
+            'D': 'futqIdI0rOY', // https://youtu.be/futqIdI0rOY
+            'E': 'ajDAmJYPQ-U'  // https://youtu.be/ajDAmJYPQ-U
         };
 
         var player;
         var isPlayerReady = false;
 
-        // 1. 유튜브 API 로드
+        // 유튜브 API 로드
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -379,15 +389,19 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
-                videoId: bgmList['A'],
+                height: '1', width: '1', // 화면에는 보이지 않음
                 playerVars: { 
                     'autoplay': 0, 
-                    'controls': 0, 
-                    'loop': 1,
-                    'playlist': bgmList['A'] // 🛠️ 수정: loop: 1 옵션 작동을 위한 필수 추가
+                    'controls': 0 
                 },
                 events: {
-                    'onReady': function() { isPlayerReady = true; }
+                    'onReady': function() { isPlayerReady = true; },
+                    // 노래가 끝나면 처음부터 다시 재생(Loop) 시키는 이벤트
+                    'onStateChange': function(event) {
+                        if (event.data === YT.PlayerState.ENDED) {
+                            player.playVideo();
+                        }
+                    }
                 }
             });
         }
@@ -400,22 +414,11 @@
             activeModal = sectionCode;
             document.getElementById('modal-' + sectionCode).style.display = 'flex';
 
-            // 🛠️ 수정: 브라우저 및 모바일 자동재생 정책 대응 예외 처리
+            // 창을 열 때 해당 방의 음악을 '장전(Cue)'만 해둡니다. (자동재생 안함)
             if(isPlayerReady && bgmList[sectionCode]) {
-                try {
-                    player.loadVideoById({
-                        videoId: bgmList[sectionCode]
-                    });
-                    player.unMute();
-                    var playPromise = player.playVideo();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(function(error) {
-                            console.log("모바일/브라우저 정책으로 음원 자동재생이 차단되었습니다:", error);
-                        });
-                    }
-                } catch(e) {
-                    console.log("YouTube Player 에러:", e);
-                }
+                player.cueVideoById(bgmList[sectionCode]);
+                // 버튼 텍스트 초기화
+                document.getElementById('bgm-btn-' + sectionCode).innerText = "▶️ BGM 재생";
             }
         }
 
@@ -423,8 +426,10 @@
             document.getElementById('modal-' + sectionCode).style.display = 'none';
             activeModal = null;
 
+            // 창을 닫으면 음악 정지 및 버튼 텍스트 초기화
             if(isPlayerReady && player.stopVideo) {
                 player.stopVideo();
+                document.getElementById('bgm-btn-' + sectionCode).innerText = "▶️ BGM 재생";
             }
         }
 
@@ -440,7 +445,29 @@
             }
         });
 
-        // Firebase 설정
+        // 🎵 직접 누르는 재생/일시정지 토글 함수
+        function toggleBgm(sectionCode) {
+            if (!isPlayerReady) {
+                alert("음악 플레이어를 불러오는 중입니다. 잠시만 기다려주세요.");
+                return;
+            }
+            
+            let state = player.getPlayerState();
+            let btn = document.getElementById('bgm-btn-' + sectionCode);
+            
+            // 재생 중(1) 이면 일시정지
+            if (state === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                btn.innerText = "▶️ BGM 재생";
+            } 
+            // 그 외(정지, 일시정지, 장전됨) 상태면 재생
+            else {
+                player.playVideo();
+                btn.innerText = "⏸️ BGM 일시정지";
+            }
+        }
+
+        // Firebase 설정 (기존 설정 유지)
         const firebaseConfig = {
             apiKey: "AIzaSyBKmo57nKqIpRQvoPOUFtYHXZE2IpcHzbY",
             authDomain: "website-32a82.firebaseapp.com",
@@ -474,13 +501,11 @@
                 allSections.forEach(function(section) {
                     document.getElementById('admin-list-wrapper-' + section).style.display = 'none';
                     document.getElementById('comment-list-' + section).innerHTML = ''; 
-                    // 로그아웃 시 리스너 제거
                     database.ref('comments_' + section).off();
                 });
             }
         });
 
-        // 🛠️ 수정: GitHub Pages 도메인 미승인 시 발생하는 auth/unauthorized-domain 예외 처리 추가
         document.getElementById('admin-login-btn').addEventListener('click', function() {
             var email = prompt("관리자 이메일을 입력하세요:");
             if (!email) return;
@@ -503,10 +528,9 @@
             }
         });
 
-        // 🛠️ 수정: .off()를 추가하여 데이터 리스너 중복 등록 및 중복 출력 방지
         function loadCommentsRealtime(sectionCode, dbPath) {
             const dbRef = database.ref(dbPath);
-            dbRef.off(); // 기존 리스너 해제
+            dbRef.off();
 
             dbRef.orderByChild('timestamp').on('child_added', function(snapshot) {
                 const commentId = snapshot.key;
