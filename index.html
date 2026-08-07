@@ -26,32 +26,26 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 🌟 최상단 메시지 입력 칸 스타일 (기존 UI 테마에 맞춤) */
+        /* 🌟 최상단 고정 메시지 박스 스타일 */
         .top-message-container {
             width: 100%;
             max-width: 900px;
             margin-bottom: 30px;
         }
-        .top-message-input {
+        .top-message-box {
             width: 100%;
             background-color: rgba(30, 41, 59, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #fff;
-            padding: 16px 20px;
-            font-size: 1rem;
-            outline: none;
+            border-radius: 16px;
+            color: #e2e8f0;
+            padding: 20px 24px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            text-align: center; /* 텍스트 가운데 정렬 (원하시면 left로 변경 가능) */
             box-sizing: border-box;
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        .top-message-input:focus {
-            border-color: #3b82f6;
-            background-color: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-        }
-        .top-message-input::placeholder {
-            color: #94a3b8;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            word-break: keep-all;
         }
 
         .main-title {
@@ -159,7 +153,6 @@
         .theme-D { background: #1c1917; border: 2px solid #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.3); }
         .theme-D h2 { color: #fbbf24; margin-top: 0; }
 
-        /* 🎵 재생 버튼 스타일 */
         .bgm-btn {
             background-color: rgba(255, 255, 255, 0.1);
             color: #fff;
@@ -246,7 +239,7 @@
 
         @media (max-width: 600px) {
             body { padding: 30px 16px; }
-            .top-message-input { padding: 14px 16px; font-size: 0.95rem; }
+            .top-message-box { padding: 16px; font-size: 0.95rem; }
             .main-title { font-size: 1.5rem; }
             .sub-title { font-size: 0.85rem; margin-bottom: 25px; }
             .station-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -263,15 +256,17 @@
 </head>
 <body>
 
-    <!-- ✅ 1. 최상단 메시지 입력 칸 추가 -->
+    <!-- ✅ 1. 최상단 고정 메시지 뷰어 (여기에 남기고 싶은 말을 수정하세요!) -->
     <div class="top-message-container">
-        <input type="text" class="top-message-input" placeholder="여기에 하고 싶은 말을 적어보세요..." />
+        <div class="top-message-box">
+            안녕하세요! 방문해주셔서 감사합니다.<br>
+            여기에 방문자들에게 보여주고 싶은 메시지나 인사말을 적어주세요! 😊
+        </div>
     </div>
 
     <h1 class="main-title">✨ 나만의 이야기 스테이션</h1>
     <p class="sub-title">원하는 카드를 클릭하여 팝업창을 열어보세요.</p>
 
-    <!-- ✅ 2. 스테이션 카드 4개로 축소 (E 삭제) -->
     <div class="station-grid">
         <div class="station-card card-A" onclick="openModal('A')">
             <h3>📝 첫 번째 이야기</h3>
@@ -381,9 +376,8 @@
     <div id="yt-player" class="hidden-player"></div>
 
     <script>
-        // ✅ 3. BGM 리스트 수정 (A번 방 노래 교체, E번 방 삭제)
         const bgmList = {
-            'A': 'rScwLoES2bM', // Daniel Caesar - Superpowers
+            'A': 'rScwLoES2bM', 
             'B': 'QaqakjrT5nY', 
             'C': 'gMjU5XJnc7E', 
             'D': 'futqIdI0rOY'
@@ -392,7 +386,6 @@
         var player;
         var isPlayerReady = false;
 
-        // 유튜브 API 로드
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -485,7 +478,7 @@
         const database = firebase.database();
         const auth = firebase.auth(); 
 
-        const allSections = ['A', 'B', 'C', 'D']; // E 삭제
+        const allSections = ['A', 'B', 'C', 'D'];
 
         auth.onAuthStateChanged(function(user) {
             if (user) {
