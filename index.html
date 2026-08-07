@@ -11,6 +11,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <style>
+        /* 폰트 적용 (기본 폰트 설정) */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
         body {
             background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
             color: #f8fafc;
@@ -21,7 +24,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 40px 20px;
+            padding: 80px 20px; /* PC 환경에서 위아래 여백을 더 줌 */
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
@@ -29,77 +32,101 @@
         /* 🌟 최상단 고정 메시지 박스 스타일 */
         .top-message-container {
             width: 100%;
-            max-width: 900px;
-            margin-bottom: 30px;
+            max-width: 1000px; /* PC에서 더 넓게 */
+            margin-bottom: 40px;
         }
+        
         .top-message-box {
             width: 100%;
-            background-color: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            color: #e2e8f0;
-            padding: 20px 24px;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            text-align: center; /* 텍스트 가운데 정렬 (원하시면 left로 변경 가능) */
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.4) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            color: #f1f5f9;
+            padding: 30px 40px; /* PC에서 시원하게 보이도록 패딩 증가 */
+            font-size: 1.15rem; /* 폰트 크기 증가 */
+            font-weight: 300;
+            line-height: 1.7;
+            text-align: center;
             box-sizing: border-box;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             word-break: keep-all;
         }
 
+        /* 타이틀 영역 */
         .main-title {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 2.5rem; /* PC 폰트 크기 확대 */
+            font-weight: 700;
+            margin-bottom: 12px;
             text-align: center;
             color: #f8fafc;
+            letter-spacing: -0.5px;
         }
 
         .sub-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #94a3b8;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             text-align: center;
+            font-weight: 300;
         }
 
+        /* 카드 그리드 레이아웃 */
         .station-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 900px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 24px; /* 카드 사이 간격 넓힘 */
+            max-width: 1000px; /* 그리드 최대 너비 확대 */
             width: 100%;
         }
 
+        /* 개별 카드 디자인 */
         .station-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 30px 20px;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 50px 24px; /* 카드를 세로로 더 길게 */
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 부드러운 애니메이션 */
             backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .station-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px); /* PC에서 마우스 오버 시 떠오르는 효과 강조 */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .card-A:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.15); }
-        .card-B:hover { border-color: #ec4899; background: rgba(236, 72, 153, 0.15); }
-        .card-C:hover { border-color: #10b981; background: rgba(16, 185, 129, 0.15); }
-        .card-D:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.15); }
+        /* 카드별 테마 색상 (Hover 효과 개선) */
+        .card-A:hover { border-color: #3b82f6; background: linear-gradient(180deg, rgba(59, 130, 246, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15); }
+        .card-B:hover { border-color: #ec4899; background: linear-gradient(180deg, rgba(236, 72, 153, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(236, 72, 153, 0.15); }
+        .card-C:hover { border-color: #10b981; background: linear-gradient(180deg, rgba(16, 185, 129, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15); }
+        .card-D:hover { border-color: #f59e0b; background: linear-gradient(180deg, rgba(245, 158, 11, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15); }
 
-        .station-card h3 { margin: 0 0 10px 0; font-size: 1.3rem; }
-        .station-card p { margin: 0; font-size: 0.9rem; color: #94a3b8; }
+        .station-card h3 { 
+            margin: 0 0 12px 0; 
+            font-size: 1.4rem; 
+            font-weight: 500;
+            color: #f8fafc;
+        }
+        .station-card p { 
+            margin: 0; 
+            font-size: 0.95rem; 
+            color: #64748b; 
+            font-weight: 300;
+        }
 
+        /* 팝업 모달 스타일 */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -110,163 +137,186 @@
 
         .modal-content {
             width: 100%;
-            max-width: 650px;
+            max-width: 750px; /* PC에서 모달 창 더 넓게 */
             max-height: 85vh;
             overflow-y: auto;
-            border-radius: 20px;
-            padding: 35px;
+            border-radius: 24px;
+            padding: 40px;
             position: relative;
             box-sizing: border-box;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            animation: modalFadeIn 0.25s ease-out;
-            -webkit-overflow-scrolling: touch;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+            animation: modalFadeIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .close-btn {
             position: absolute;
-            top: 20px; right: 20px;
-            font-size: 1.5rem;
+            top: 25px; right: 25px;
+            font-size: 1.6rem;
             color: #94a3b8;
             cursor: pointer;
-            width: 36px; height: 36px;
+            width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
         }
-        .close-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.2); }
+        .close-btn:hover { 
+            color: #fff; 
+            background: rgba(255, 255, 255, 0.15); 
+            transform: rotate(90deg); /* 닫기 버튼 회전 효과 */
+        }
 
-        .theme-A { background: #0f172a; border: 2px solid #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3); }
-        .theme-A h2 { color: #60a5fa; margin-top: 0; }
+        /* 모달 내부 콘텐츠 테마 */
+        .theme-A { background: #0f172a; border: 1px solid rgba(59, 130, 246, 0.5); box-shadow: 0 0 40px rgba(59, 130, 246, 0.15); }
+        .theme-A h2 { color: #60a5fa; margin-top: 0; font-size: 1.8rem; }
 
-        .theme-B { background: #180d1e; border: 2px solid #ec4899; box-shadow: 0 0 30px rgba(236, 72, 153, 0.3); }
-        .theme-B h2 { color: #f472b6; margin-top: 0; }
+        .theme-B { background: #180d1e; border: 1px solid rgba(236, 72, 153, 0.5); box-shadow: 0 0 40px rgba(236, 72, 153, 0.15); }
+        .theme-B h2 { color: #f472b6; margin-top: 0; font-size: 1.8rem; }
 
-        .theme-C { background: #06201b; border: 2px solid #10b981; box-shadow: 0 0 30px rgba(16, 185, 129, 0.3); }
-        .theme-C h2 { color: #34d399; margin-top: 0; }
+        .theme-C { background: #06201b; border: 1px solid rgba(16, 185, 129, 0.5); box-shadow: 0 0 40px rgba(16, 185, 129, 0.15); }
+        .theme-C h2 { color: #34d399; margin-top: 0; font-size: 1.8rem; }
 
-        .theme-D { background: #1c1917; border: 2px solid #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.3); }
-        .theme-D h2 { color: #fbbf24; margin-top: 0; }
+        .theme-D { background: #1c1917; border: 1px solid rgba(245, 158, 11, 0.5); box-shadow: 0 0 40px rgba(245, 158, 11, 0.15); }
+        .theme-D h2 { color: #fbbf24; margin-top: 0; font-size: 1.8rem; }
 
         .bgm-btn {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.08);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 18px;
-            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 0.9rem;
-            margin-bottom: 16px;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
             transition: all 0.2s;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .bgm-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+        .bgm-btn:hover { background-color: rgba(255, 255, 255, 0.15); transform: scale(1.02); }
 
         .message-display {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            font-size: 1rem;
-            line-height: 1.7;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            font-size: 1.1rem; /* 글 읽기 편하게 폰트 키움 */
+            line-height: 1.8;
             color: #e2e8f0;
             white-space: pre-wrap;
-            margin-bottom: 20px;
-            max-height: 250px;
+            margin-bottom: 24px;
+            max-height: 350px; /* 더 많은 내용을 볼 수 있게 조절 */
             overflow-y: auto;
             word-break: break-word;
+            font-weight: 300;
         }
 
+        /* 댓글 영역 */
         .comment-section {
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 16px;
+            padding: 24px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .comment-form { display: flex; gap: 8px; margin-bottom: 12px; }
+        .comment-form { display: flex; gap: 12px; margin-bottom: 16px; }
 
         .comment-input {
             flex: 1;
-            background-color: rgba(15, 23, 42, 0.8);
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: #fff;
-            padding: 12px;
-            font-size: 16px;
+            padding: 16px 20px;
+            font-size: 1rem;
             outline: none;
             box-sizing: border-box;
+            transition: border-color 0.2s;
         }
+        .comment-input:focus { border-color: rgba(96, 165, 250, 0.5); }
 
         .comment-submit {
-            background-color: #1e293b;
-            color: #93c5fd;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            padding: 0 16px;
-            font-weight: 600;
-            border-radius: 8px;
+            background-color: #3b82f6;
+            color: #fff;
+            border: none;
+            padding: 0 24px;
+            font-weight: 500;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1rem;
             white-space: nowrap;
+            transition: background-color 0.2s, transform 0.1s;
         }
+        .comment-submit:hover { background-color: #2563eb; }
+        .comment-submit:active { transform: scale(0.98); }
 
         .comment-list-wrapper {
             display: none;
-            margin-top: 15px;
+            margin-top: 20px;
             border-top: 1px dashed rgba(255, 255, 255, 0.1);
-            padding-top: 15px;
+            padding-top: 20px;
         }
 
-        .comment-list { display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; }
-        .comment-item { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; }
-        .comment-header { display: flex; justify-content: space-between; font-size: 0.8rem; color: #64748b; margin-bottom: 4px; }
-        .comment-delete-btn { background: none; border: none; color: #f43f5e; cursor: pointer; padding: 2px 6px; }
-        .comment-text { font-size: 0.9rem; color: #e2e8f0; word-break: break-all; }
+        .comment-list { display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; }
+        .comment-item { background: rgba(255, 255, 255, 0.03); padding: 16px; border-radius: 12px; }
+        .comment-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; }
+        .comment-delete-btn { background: none; border: none; color: #f43f5e; cursor: pointer; padding: 2px 6px; font-size: 0.85rem; transition: color 0.2s;}
+        .comment-delete-btn:hover { color: #e11d48; text-decoration: underline; }
+        .comment-text { font-size: 1rem; color: #f1f5f9; word-break: break-all; line-height: 1.5; }
 
-        .admin-toggle-wrapper { text-align: center; margin-top: 30px; }
-        .admin-toggle-btn { background: none; border: none; color: #475569; font-size: 0.85rem; cursor: pointer; padding: 10px; }
+        .admin-toggle-wrapper { text-align: center; margin-top: 50px; }
+        .admin-toggle-btn { background: none; border: none; color: #475569; font-size: 0.9rem; cursor: pointer; padding: 10px; transition: color 0.2s; }
+        .admin-toggle-btn:hover { color: #94a3b8; }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+        /* 고급스러운 스크롤바 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255, 0.3); }
+
         .hidden-player { position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; }
 
-        @media (max-width: 600px) {
-            body { padding: 30px 16px; }
-            .top-message-box { padding: 16px; font-size: 0.95rem; }
-            .main-title { font-size: 1.5rem; }
-            .sub-title { font-size: 0.85rem; margin-bottom: 25px; }
-            .station-grid { grid-template-columns: 1fr; gap: 12px; }
-            .station-card { padding: 20px 16px; }
-            .station-card h3 { font-size: 1.15rem; }
-            .modal-overlay { padding: 12px; }
-            .modal-content { padding: 24px 18px 18px 18px; max-height: 90vh; border-radius: 16px; }
-            .modal-content h2 { font-size: 1.3rem; padding-right: 30px; }
-            .close-btn { top: 16px; right: 16px; width: 32px; height: 32px; font-size: 1.2rem; }
-            .message-display { padding: 14px; font-size: 0.92rem; max-height: 180px; }
-            .comment-section { padding: 12px; }
+        /* 📱 모바일 환경 최적화 (화면이 작아질 때 기존처럼 깔끔하게 유지) */
+        @media (max-width: 768px) {
+            body { padding: 40px 16px; }
+            .top-message-box { padding: 20px; font-size: 1rem; }
+            .main-title { font-size: 1.8rem; margin-bottom: 10px; }
+            .sub-title { font-size: 0.95rem; margin-bottom: 35px; }
+            .station-grid { grid-template-columns: 1fr; gap: 16px; }
+            .station-card { padding: 30px 20px; border-radius: 16px; }
+            .station-card h3 { font-size: 1.25rem; }
+            
+            .modal-content { padding: 30px 20px 20px 20px; max-height: 90vh; border-radius: 20px; }
+            .modal-content h2 { font-size: 1.4rem; padding-right: 30px; }
+            .close-btn { top: 15px; right: 15px; width: 32px; height: 32px; font-size: 1.4rem; }
+            
+            .message-display { padding: 20px; font-size: 0.95rem; max-height: 200px; }
+            .comment-section { padding: 16px; }
+            .comment-form { flex-direction: column; gap: 10px; }
+            .comment-input { padding: 14px; }
+            .comment-submit { padding: 12px; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ✅ 1. 최상단 고정 메시지 뷰어 (여기에 남기고 싶은 말을 수정하세요!) -->
+    <!-- ✅ 최상단 고정 메시지 뷰어 -->
     <div class="top-message-container">
         <div class="top-message-box">
-            안녕하세요! 방문해주셔서 감사합니다.<br>
-            여기에 방문자들에게 보여주고 싶은 메시지나 인사말을 적어주세요! 😊
+            안녕하세요! 이곳을 방문해주셔서 진심으로 환영합니다.<br>
+            이 공간은 편안하게 이야기를 둘러보고 나누는 곳입니다. 편안한 시간 되세요! 😊
         </div>
     </div>
 
-    <h1 class="main-title">✨ 나만의 이야기 스테이션</h1>
-    <p class="sub-title">원하는 카드를 클릭하여 팝업창을 열어보세요.</p>
+    <h1 class="main-title">나만의 이야기 스테이션</h1>
+    <p class="sub-title">원하는 카드를 클릭하여 숨겨진 이야기를 확인해보세요.</p>
 
+    <!-- 카드 영역 -->
     <div class="station-grid">
         <div class="station-card card-A" onclick="openModal('A')">
             <h3>📝 첫 번째 이야기</h3>
@@ -286,86 +336,86 @@
         </div>
     </div>
 
+    <!-- 관리자 로그인 (스크롤 맨 아래) -->
     <div class="admin-toggle-wrapper">
         <button id="admin-login-btn" class="admin-toggle-btn">🔒 관리자 로그인</button>
         <button id="admin-logout-btn" class="admin-toggle-btn" style="display: none; color: #f43f5e;">🔓 로그아웃</button>
     </div>
 
-    <!-- 팝업 모달 목록 -->
-    <!-- 모달 A -->
+    <!-- 팝업 모달: A -->
     <div id="modal-A" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'A')">
         <div class="modal-content theme-A">
             <span class="close-btn" onclick="closeModal('A')">&times;</span>
             <h2>✨ 첫 번째 이야기</h2>
             <button id="bgm-btn-A" class="bgm-btn" onclick="toggleBgm('A')">▶️ BGM 재생</button>
-            <div class="message-display">첫 번째 팝업창 공간입니다.</div>
+            <div class="message-display">여기에 첫 번째 긴 이야기를 적어주시면 됩니다. 마우스 휠로 스크롤을 내릴 수 있게 넉넉한 공간을 확보했습니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-A" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <input type="text" id="comment-text-A" class="comment-input" placeholder="이 이야기에 대한 소감을 남겨주세요..." maxlength="200">
                     <button id="submit-btn-A" class="comment-submit" onclick="submitComment('A', 'comments_A')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-A" class="comment-list-wrapper">
-                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <h4 style="color: #f43f5e; margin: 0 0 12px 0;">🔒 관리자 전용 뷰어</h4>
                     <div id="comment-list-A" class="comment-list"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 모달 B -->
+    <!-- 팝업 모달: B -->
     <div id="modal-B" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'B')">
         <div class="modal-content theme-B">
             <span class="close-btn" onclick="closeModal('B')">&times;</span>
             <h2>💌 두 번째 이야기</h2>
             <button id="bgm-btn-B" class="bgm-btn" onclick="toggleBgm('B')">▶️ BGM 재생</button>
-            <div class="message-display">두 번째 팝업창 공간입니다.</div>
+            <div class="message-display">여기에 두 번째 긴 이야기를 적어주시면 됩니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-B" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <input type="text" id="comment-text-B" class="comment-input" placeholder="이 이야기에 대한 소감을 남겨주세요..." maxlength="200">
                     <button id="submit-btn-B" class="comment-submit" onclick="submitComment('B', 'comments_B')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-B" class="comment-list-wrapper">
-                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <h4 style="color: #f43f5e; margin: 0 0 12px 0;">🔒 관리자 전용 뷰어</h4>
                     <div id="comment-list-B" class="comment-list"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 모달 C -->
+    <!-- 팝업 모달: C -->
     <div id="modal-C" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'C')">
         <div class="modal-content theme-C">
             <span class="close-btn" onclick="closeModal('C')">&times;</span>
             <h2>✨ 세 번째 이야기</h2>
             <button id="bgm-btn-C" class="bgm-btn" onclick="toggleBgm('C')">▶️ BGM 재생</button>
-            <div class="message-display">세 번째 팝업창 공간입니다.</div>
+            <div class="message-display">여기에 세 번째 긴 이야기를 적어주시면 됩니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-C" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <input type="text" id="comment-text-C" class="comment-input" placeholder="이 이야기에 대한 소감을 남겨주세요..." maxlength="200">
                     <button id="submit-btn-C" class="comment-submit" onclick="submitComment('C', 'comments_C')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-C" class="comment-list-wrapper">
-                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <h4 style="color: #f43f5e; margin: 0 0 12px 0;">🔒 관리자 전용 뷰어</h4>
                     <div id="comment-list-C" class="comment-list"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 모달 D -->
+    <!-- 팝업 모달: D -->
     <div id="modal-D" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'D')">
         <div class="modal-content theme-D">
             <span class="close-btn" onclick="closeModal('D')">&times;</span>
             <h2>💡 네 번째 이야기</h2>
             <button id="bgm-btn-D" class="bgm-btn" onclick="toggleBgm('D')">▶️ BGM 재생</button>
-            <div class="message-display">네 번째 팝업창 공간입니다.</div>
+            <div class="message-display">여기에 네 번째 긴 이야기를 적어주시면 됩니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-D" class="comment-input" placeholder="소감을 남겨주세요..." maxlength="200">
+                    <input type="text" id="comment-text-D" class="comment-input" placeholder="이 이야기에 대한 소감을 남겨주세요..." maxlength="200">
                     <button id="submit-btn-D" class="comment-submit" onclick="submitComment('D', 'comments_D')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-D" class="comment-list-wrapper">
-                    <h4 style="color: #f43f5e; margin: 0 0 10px 0;">🔒 관리자 뷰어</h4>
+                    <h4 style="color: #f43f5e; margin: 0 0 12px 0;">🔒 관리자 전용 뷰어</h4>
                     <div id="comment-list-D" class="comment-list"></div>
                 </div>
             </div>
@@ -413,13 +463,12 @@
 
         function openModal(sectionCode) {
             if(activeModal) closeModal(activeModal);
-
             activeModal = sectionCode;
             document.getElementById('modal-' + sectionCode).style.display = 'flex';
 
             if(isPlayerReady && bgmList[sectionCode]) {
                 player.cueVideoById(bgmList[sectionCode]);
-                document.getElementById('bgm-btn-' + sectionCode).innerText = "▶️ BGM 재생";
+                document.getElementById('bgm-btn-' + sectionCode).innerHTML = "▶️ BGM 재생";
             }
         }
 
@@ -429,7 +478,7 @@
 
             if(isPlayerReady && player.stopVideo) {
                 player.stopVideo();
-                document.getElementById('bgm-btn-' + sectionCode).innerText = "▶️ BGM 재생";
+                document.getElementById('bgm-btn-' + sectionCode).innerHTML = "▶️ BGM 재생";
             }
         }
 
@@ -456,14 +505,14 @@
             
             if (state === YT.PlayerState.PLAYING) {
                 player.pauseVideo();
-                btn.innerText = "▶️ BGM 재생";
+                btn.innerHTML = "▶️ BGM 재생";
             } else {
                 player.playVideo();
-                btn.innerText = "⏸️ BGM 일시정지";
+                btn.innerHTML = "⏸️ BGM 일시정지";
             }
         }
 
-        // Firebase 설정 
+        // Firebase 설정 (그대로 유지)
         const firebaseConfig = {
             apiKey: "AIzaSyBKmo57nKqIpRQvoPOUFtYHXZE2IpcHzbY",
             authDomain: "website-32a82.firebaseapp.com",
@@ -583,12 +632,15 @@
                     input.value = ""; 
                     button.innerText = "✅ 완료";
                     button.disabled = true; 
+                    button.style.backgroundColor = "#10b981"; // 완료 시 초록색으로 변경
+                    
                     setTimeout(function() {
                         button.innerText = "등록";
                         button.disabled = false;
+                        button.style.backgroundColor = ""; // 색상 원상복구
                     }, 1500);
                 } else {
-                    alert("댓글 등록에 실패했습니다. Firebase 데이터베이스 권한을 확인해주세요.");
+                    alert("댓글 등록에 실패했습니다. Firebase 권한을 확인해주세요.");
                 }
             });
         }
