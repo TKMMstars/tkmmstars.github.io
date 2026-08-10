@@ -24,7 +24,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 80px 20px; /* PC 환경에서 위아래 여백을 더 줌 */
+            padding: 80px 20px;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
@@ -32,7 +32,7 @@
         /* 🌟 최상단 고정 메시지 박스 스타일 */
         .top-message-container {
             width: 100%;
-            max-width: 1000px; /* PC에서 더 넓게 */
+            max-width: 1000px;
             margin-bottom: 40px;
         }
         
@@ -42,8 +42,8 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             color: #f1f5f9;
-            padding: 30px 40px; /* PC에서 시원하게 보이도록 패딩 증가 */
-            font-size: 1.15rem; /* 폰트 크기 증가 */
+            padding: 30px 40px;
+            font-size: 1.15rem;
             font-weight: 300;
             line-height: 1.7;
             text-align: center;
@@ -55,7 +55,7 @@
 
         /* 타이틀 영역 */
         .main-title {
-            font-size: 2.5rem; /* PC 폰트 크기 확대 */
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 12px;
             text-align: center;
@@ -75,8 +75,8 @@
         .station-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 24px; /* 카드 사이 간격 넓힘 */
-            max-width: 1000px; /* 그리드 최대 너비 확대 */
+            gap: 24px;
+            max-width: 1000px;
             width: 100%;
         }
 
@@ -85,10 +85,10 @@
             background: rgba(30, 41, 59, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 50px 24px; /* 카드를 세로로 더 길게 */
+            padding: 50px 24px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 부드러운 애니메이션 */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
@@ -97,15 +97,19 @@
         }
 
         .station-card:hover {
-            transform: translateY(-8px); /* PC에서 마우스 오버 시 떠오르는 효과 강조 */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* 카드별 테마 색상 (Hover 효과 개선) */
-        .card-A:hover { border-color: #3b82f6; background: linear-gradient(180deg, rgba(59, 130, 246, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15); }
-        .card-B:hover { border-color: #ec4899; background: linear-gradient(180deg, rgba(236, 72, 153, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(236, 72, 153, 0.15); }
-        .card-C:hover { border-color: #10b981; background: linear-gradient(180deg, rgba(16, 185, 129, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15); }
-        .card-D:hover { border-color: #f59e0b; background: linear-gradient(180deg, rgba(245, 158, 11, 0.15), rgba(30, 41, 59, 0.4)); box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15); }
+        /* 🎨 요청에 맞춰 조정된 카드별 테마 색상 (Hover 효과) */
+        /* A: 선명하고 깊은 네이비 */
+        .card-A:hover { border-color: #2563eb; background: linear-gradient(180deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.6)); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3); }
+        /* B: 깔끔하고 또렷한 화이트 */
+        .card-B:hover { border-color: #ffffff; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(30, 41, 59, 0.5)); box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2); }
+        /* C: 묵직하고 모던한 옵시디언 블랙 */
+        .card-C:hover { border-color: #71717a; background: linear-gradient(180deg, rgba(24, 24, 27, 0.8), rgba(9, 9, 11, 0.9)); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8); }
+        /* D: 화려하고 선명한 바이올렛 퍼플 */
+        .card-D:hover { border-color: #a855f7; background: linear-gradient(180deg, rgba(168, 85, 247, 0.25), rgba(30, 41, 59, 0.5)); box-shadow: 0 15px 35px rgba(168, 85, 247, 0.3); }
 
         .station-card h3 { 
             margin: 0 0 12px 0; 
@@ -116,7 +120,7 @@
         .station-card p { 
             margin: 0; 
             font-size: 0.95rem; 
-            color: #64748b; 
+            color: #94a3b8; 
             font-weight: 300;
         }
 
@@ -137,7 +141,7 @@
 
         .modal-content {
             width: 100%;
-            max-width: 750px; /* PC에서 모달 창 더 넓게 */
+            max-width: 750px;
             max-height: 85vh;
             overflow-y: auto;
             border-radius: 24px;
@@ -168,21 +172,25 @@
         .close-btn:hover { 
             color: #fff; 
             background: rgba(255, 255, 255, 0.15); 
-            transform: rotate(90deg); /* 닫기 버튼 회전 효과 */
+            transform: rotate(90deg);
         }
 
-        /* 모달 내부 콘텐츠 테마 */
-        .theme-A { background: #0f172a; border: 1px solid rgba(59, 130, 246, 0.5); box-shadow: 0 0 40px rgba(59, 130, 246, 0.15); }
-        .theme-A h2 { color: #60a5fa; margin-top: 0; font-size: 1.8rem; }
+        /* 🎨 모달 내부 콘텐츠 테마 색상 정의 */
+        /* A: 네이비 테마 */
+        .theme-A { background: #0b1329; border: 1px solid rgba(59, 130, 246, 0.6); box-shadow: 0 0 50px rgba(37, 99, 235, 0.25); }
+        .theme-A h2 { color: #93c5fd; margin-top: 0; font-size: 1.8rem; }
 
-        .theme-B { background: #180d1e; border: 1px solid rgba(236, 72, 153, 0.5); box-shadow: 0 0 40px rgba(236, 72, 153, 0.15); }
-        .theme-B h2 { color: #f472b6; margin-top: 0; font-size: 1.8rem; }
+        /* B: 화이트 테마 */
+        .theme-B { background: #18181b; border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 0 50px rgba(255, 255, 255, 0.15); }
+        .theme-B h2 { color: #ffffff; margin-top: 0; font-size: 1.8rem; }
 
-        .theme-C { background: #06201b; border: 1px solid rgba(16, 185, 129, 0.5); box-shadow: 0 0 40px rgba(16, 185, 129, 0.15); }
-        .theme-C h2 { color: #34d399; margin-top: 0; font-size: 1.8rem; }
+        /* C: 블랙 테마 */
+        .theme-C { background: #09090b; border: 1px solid rgba(113, 113, 122, 0.6); box-shadow: 0 0 50px rgba(0, 0, 0, 0.9); }
+        .theme-C h2 { color: #f4f4f5; margin-top: 0; font-size: 1.8rem; }
 
-        .theme-D { background: #1c1917; border: 1px solid rgba(245, 158, 11, 0.5); box-shadow: 0 0 40px rgba(245, 158, 11, 0.15); }
-        .theme-D h2 { color: #fbbf24; margin-top: 0; font-size: 1.8rem; }
+        /* D: 퍼플 테마 */
+        .theme-D { background: #170d22; border: 1px solid rgba(168, 85, 247, 0.6); box-shadow: 0 0 50px rgba(168, 85, 247, 0.25); }
+        .theme-D h2 { color: #c084fc; margin-top: 0; font-size: 1.8rem; }
 
         .bgm-btn {
             background-color: rgba(255, 255, 255, 0.08);
@@ -201,16 +209,16 @@
         .bgm-btn:hover { background-color: rgba(255, 255, 255, 0.15); transform: scale(1.02); }
 
         .message-display {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 30px;
-            font-size: 1.1rem; /* 글 읽기 편하게 폰트 키움 */
+            font-size: 1.1rem;
             line-height: 1.8;
             color: #e2e8f0;
             white-space: pre-wrap;
             margin-bottom: 24px;
-            max-height: 350px; /* 더 많은 내용을 볼 수 있게 조절 */
+            max-height: 350px;
             overflow-y: auto;
             word-break: break-word;
             font-weight: 300;
@@ -281,7 +289,7 @@
 
         .hidden-player { position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; }
 
-        /* 📱 모바일 환경 최적화 (화면이 작아질 때 기존처럼 깔끔하게 유지) */
+        /* 모바일 반응형 */
         @media (max-width: 768px) {
             body { padding: 40px 16px; }
             .top-message-box { padding: 20px; font-size: 1rem; }
@@ -305,7 +313,7 @@
 </head>
 <body>
 
-    <!-- ✅ 최상단 고정 메시지 뷰어 -->
+    <!-- 최상단 고정 메시지 뷰어 -->
     <div class="top-message-container">
         <div class="top-message-box">
             안녕하세요! 이곳을 방문해주셔서 진심으로 환영합니다.<br>
@@ -336,7 +344,7 @@
         </div>
     </div>
 
-    <!-- 관리자 로그인 (스크롤 맨 아래) -->
+    <!-- 관리자 로그인 -->
     <div class="admin-toggle-wrapper">
         <button id="admin-login-btn" class="admin-toggle-btn">🔒 관리자 로그인</button>
         <button id="admin-logout-btn" class="admin-toggle-btn" style="display: none; color: #f43f5e;">🔓 로그아웃</button>
@@ -348,7 +356,7 @@
             <span class="close-btn" onclick="closeModal('A')">&times;</span>
             <h2>✨ 첫 번째 이야기</h2>
             <button id="bgm-btn-A" class="bgm-btn" onclick="toggleBgm('A')">▶️ BGM 재생</button>
-            <div class="message-display">여기에 첫 번째 긴 이야기를 적어주시면 됩니다. 마우스 휠로 스크롤을 내릴 수 있게 넉넉한 공간을 확보했습니다.</div>
+            <div class="message-display">여기에 첫 번째 긴 이야기를 적어주시면 됩니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
                     <input type="text" id="comment-text-A" class="comment-input" placeholder="이 이야기에 대한 소감을 남겨주세요..." maxlength="200">
@@ -426,11 +434,12 @@
     <div id="yt-player" class="hidden-player"></div>
 
     <script>
+        // 🎵 요청하신 C, D 유튜브 BGM ID 업데이트 완료
         const bgmList = {
             'A': 'rScwLoES2bM', 
             'B': 'QaqakjrT5nY', 
-            'C': 'gMjU5XJnc7E', 
-            'D': 'futqIdI0rOY'
+            'C': 'ajDAmJYPQ-U', // C카드 BGM 변경
+            'D': 'LHacoI6_pTo'  // D카드 BGM 변경
         };
 
         var player;
@@ -512,7 +521,7 @@
             }
         }
 
-        // Firebase 설정 (그대로 유지)
+        // Firebase 설정
         const firebaseConfig = {
             apiKey: "AIzaSyBKmo57nKqIpRQvoPOUFtYHXZE2IpcHzbY",
             authDomain: "website-32a82.firebaseapp.com",
@@ -632,12 +641,12 @@
                     input.value = ""; 
                     button.innerText = "✅ 완료";
                     button.disabled = true; 
-                    button.style.backgroundColor = "#10b981"; // 완료 시 초록색으로 변경
+                    button.style.backgroundColor = "#10b981";
                     
                     setTimeout(function() {
                         button.innerText = "등록";
                         button.disabled = false;
-                        button.style.backgroundColor = ""; // 색상 원상복구
+                        button.style.backgroundColor = "";
                     }, 1500);
                 } else {
                     alert("댓글 등록에 실패했습니다. Firebase 권한을 확인해주세요.");
