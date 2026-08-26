@@ -24,9 +24,44 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 80px 20px;
+            padding: 60px 20px 80px 20px;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 🚀 최상단 지텃씨 프로젝트 바로가기 버튼 스타일 */
+        .project-link-wrapper {
+            margin-bottom: 24px;
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .project-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(168, 85, 247, 0.25));
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            text-decoration: none;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.3px;
+        }
+
+        .project-link-btn:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.45), rgba(168, 85, 247, 0.45));
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.35);
+            color: #ffffff;
         }
 
         /* 🌟 최상단 고정 메시지 박스 스타일 */
@@ -101,14 +136,10 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* 🎨 요청에 맞춰 조정된 카드별 테마 색상 (Hover 효과) */
-        /* A:네이비 */
+        /* 카드별 테마 색상 (Hover 효과) */
         .card-A:hover { border-color: #2563eb; background: linear-gradient(180deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.6)); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3); }
-        /* B:화이트 */
         .card-B:hover { border-color: #ffffff; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(30, 41, 59, 0.5)); box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2); }
-        /* C:블랙 */
         .card-C:hover { border-color: #71717a; background: linear-gradient(180deg, rgba(24, 24, 27, 0.8), rgba(9, 9, 11, 0.9)); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8); }
-        /* D:퍼플 */
         .card-D:hover { border-color: #a855f7; background: linear-gradient(180deg, rgba(168, 85, 247, 0.25), rgba(30, 41, 59, 0.5)); box-shadow: 0 15px 35px rgba(168, 85, 247, 0.3); }
 
         .station-card h3 { 
@@ -175,20 +206,16 @@
             transform: rotate(90deg);
         }
 
-        /* 🎨 모달 내부 콘텐츠 테마 색상 정의 */
-        /* A: 네이비 테마 */
+        /* 모달 테마 색상 */
         .theme-A { background: #0b1329; border: 1px solid rgba(59, 130, 246, 0.6); box-shadow: 0 0 50px rgba(37, 99, 235, 0.25); }
         .theme-A h2 { color: #93c5fd; margin-top: 0; font-size: 1.8rem; }
 
-        /* B: 화이트 테마 */
         .theme-B { background: #18181b; border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 0 50px rgba(255, 255, 255, 0.15); }
         .theme-B h2 { color: #ffffff; margin-top: 0; font-size: 1.8rem; }
 
-        /* C: 블랙 테마 */
         .theme-C { background: #09090b; border: 1px solid rgba(113, 113, 122, 0.6); box-shadow: 0 0 50px rgba(0, 0, 0, 0.9); }
         .theme-C h2 { color: #f4f4f5; margin-top: 0; font-size: 1.8rem; }
 
-        /* D: 퍼플 테마 */
         .theme-D { background: #170d22; border: 1px solid rgba(168, 85, 247, 0.6); box-shadow: 0 0 50px rgba(168, 85, 247, 0.25); }
         .theme-D h2 { color: #c084fc; margin-top: 0; font-size: 1.8rem; }
 
@@ -291,7 +318,8 @@
 
         /* 모바일 반응형 */
         @media (max-width: 768px) {
-            body { padding: 40px 16px; }
+            body { padding: 30px 16px 40px 16px; }
+            .project-link-btn { padding: 12px 20px; font-size: 0.95rem; }
             .top-message-box { padding: 20px; font-size: 1rem; }
             .main-title { font-size: 1.8rem; margin-bottom: 10px; }
             .sub-title { font-size: 0.95rem; margin-bottom: 35px; }
@@ -313,7 +341,14 @@
 </head>
 <body>
 
-    <!-- 최상단 -->
+    <!-- 🌱 최상단 지텃씨 프로젝트 바로가기 버튼 -->
+    <div class="project-link-wrapper">
+        <a href="https://tkmmstars.github.io/godigka/" target="_blank" rel="noopener noreferrer" class="project-link-btn">
+            🌱 지텃씨 프로젝트 바로가기 ↗
+        </a>
+    </div>
+
+    <!-- 최상단 고정 메시지 뷰어 -->
     <div class="top-message-container">
         <div class="top-message-box">
             안녕하세요! 이곳을 방문해주셔서 진심으로 환영합니다.<br>
@@ -321,8 +356,8 @@
         </div>
     </div>
 
-    <h1 class="main-title">이야기 스테이션</h1>
-    <p class="sub-title">원하는 카드를 클릭하여 비밀의 방을 확인해보세요.</p>
+    <h1 class="main-title">나만의 이야기 스테이션</h1>
+    <p class="sub-title">원하는 카드를 클릭하여 숨겨진 이야기를 확인해보세요.</p>
 
     <!-- 카드 영역 -->
     <div class="station-grid">
@@ -344,13 +379,13 @@
         </div>
     </div>
 
-    <!-- 관리자 -->
+    <!-- 관리자 로그인 -->
     <div class="admin-toggle-wrapper">
         <button id="admin-login-btn" class="admin-toggle-btn">🔒 관리자 로그인</button>
         <button id="admin-logout-btn" class="admin-toggle-btn" style="display: none; color: #f43f5e;">🔓 로그아웃</button>
     </div>
 
-    <!-- A -->
+    <!-- 팝업 모달: A -->
     <div id="modal-A" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'A')">
         <div class="modal-content theme-A">
             <span class="close-btn" onclick="closeModal('A')">&times;</span>
@@ -370,7 +405,7 @@
         </div>
     </div>
 
-    <!-- B -->
+    <!-- 팝업 모달: B -->
     <div id="modal-B" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'B')">
         <div class="modal-content theme-B">
             <span class="close-btn" onclick="closeModal('B')">&times;</span>
@@ -390,7 +425,7 @@
         </div>
     </div>
 
-    <!-- C -->
+    <!-- 팝업 모달: C -->
     <div id="modal-C" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'C')">
         <div class="modal-content theme-C">
             <span class="close-btn" onclick="closeModal('C')">&times;</span>
@@ -410,7 +445,7 @@
         </div>
     </div>
 
-    <!-- D -->
+    <!-- 팝업 모달: D -->
     <div id="modal-D" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'D')">
         <div class="modal-content theme-D">
             <span class="close-btn" onclick="closeModal('D')">&times;</span>
@@ -430,16 +465,15 @@
         </div>
     </div>
 
-    <!-- BGM -->
+    <!-- 보이지 않는 유튜브 플레이어 -->
     <div id="yt-player" class="hidden-player"></div>
 
     <script>
-        // 🎵유튜브 BGM
         const bgmList = {
             'A': 'rScwLoES2bM', 
             'B': 'QaqakjrT5nY', 
-            'C': 'ajDAmJYPQ-U', // C카드 BGM 변경
-            'D': 'LHacoI6_pTo'  // D카드 BGM 변경
+            'C': 'ajDAmJYPQ-U', 
+            'D': 'LHacoI6_pTo'  
         };
 
         var player;
