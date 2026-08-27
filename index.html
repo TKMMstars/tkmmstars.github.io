@@ -240,12 +240,12 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 30px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.8;
             color: #e2e8f0;
             white-space: pre-wrap;
             margin-bottom: 24px;
-            max-height: 350px;
+            max-height: 380px;
             overflow-y: auto;
             word-break: break-word;
             font-weight: 300;
@@ -261,7 +261,7 @@
 
         .comment-form { display: flex; gap: 12px; margin-bottom: 16px; }
 
-        .comment-input {
+        .comment-input, .comment-textarea {
             flex: 1;
             background-color: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -272,8 +272,10 @@
             outline: none;
             box-sizing: border-box;
             transition: border-color 0.2s;
+            font-family: inherit;
         }
-        .comment-input:focus { border-color: rgba(96, 165, 250, 0.5); }
+        .comment-input:focus, .comment-textarea:focus { border-color: rgba(96, 165, 250, 0.5); }
+        .comment-textarea { resize: vertical; min-height: 80px; }
 
         .comment-submit {
             background-color: #3b82f6;
@@ -302,7 +304,7 @@
         .comment-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; }
         .comment-delete-btn { background: none; border: none; color: #f43f5e; cursor: pointer; padding: 2px 6px; font-size: 0.85rem; transition: color 0.2s;}
         .comment-delete-btn:hover { color: #e11d48; text-decoration: underline; }
-        .comment-text { font-size: 1rem; color: #f1f5f9; word-break: break-all; line-height: 1.5; }
+        .comment-text { font-size: 1rem; color: #f1f5f9; word-break: break-all; line-height: 1.5; white-space: pre-wrap; }
 
         .admin-toggle-wrapper { text-align: center; margin-top: 50px; }
         .admin-toggle-btn { background: none; border: none; color: #475569; font-size: 0.9rem; cursor: pointer; padding: 10px; transition: color 0.2s; }
@@ -331,10 +333,10 @@
             .modal-content h2 { font-size: 1.4rem; padding-right: 30px; }
             .close-btn { top: 15px; right: 15px; width: 32px; height: 32px; font-size: 1.4rem; }
             
-            .message-display { padding: 20px; font-size: 0.95rem; max-height: 200px; }
+            .message-display { padding: 20px; font-size: 0.95rem; max-height: 250px; }
             .comment-section { padding: 16px; }
             .comment-form { flex-direction: column; gap: 10px; }
-            .comment-input { padding: 14px; }
+            .comment-input, .comment-textarea { padding: 14px; }
             .comment-submit { padding: 12px; width: 100%; }
         }
     </style>
@@ -374,8 +376,8 @@
             <p>클릭하여 펼치기</p>
         </div>
         <div class="station-card card-D" onclick="openModal('D')">
-            <h3>💡 네 번째 이야기</h3>
-            <p>클릭하여 펼치기</p>
+            <h3>🌙 테라의 마법의 방</h3>
+            <p>클릭하여 이야기 남기기</p>
         </div>
     </div>
 
@@ -445,17 +447,55 @@
         </div>
     </div>
 
-    <!-- 팝업 모달: D -->
+    <!-- 🔮 팝업 모달: D (테라의 마법의 방 적용) -->
     <div id="modal-D" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'D')">
         <div class="modal-content theme-D">
             <span class="close-btn" onclick="closeModal('D')">&times;</span>
-            <h2>💡 네 번째 이야기</h2>
+            <h2>🌙 테라의 &lt;마법의 방&gt;</h2>
             <button id="bgm-btn-D" class="bgm-btn" onclick="toggleBgm('D')">▶️ BGM 재생</button>
-            <div class="message-display">여기에 네 번째 긴 이야기를 적어주시면 됩니다.</div>
+            
+            <div class="message-display">당신은 마법을 믿어본 적이 있나요?
+마법의 세계가 정말 어딘가에 존재할지도 모른다는 것.
+신기한 보물이 우리의 소원을 들어줄지도 모른다는 것.
+그리고 아주 먼 우주 어딘가에서
+이름 모를 수호자가 나를 바라보며
+조용히 길을 알려주고 있을지도 모른다는 것.
+
+밤하늘의 별을 바라볼 때,
+달빛이 유난히 밝은 밤에,
+붉게 물든 석양을 바라볼 때.
+말로 설명할 수는 없지만
+어쩐지 나를 둘러싼 세상에
+작고 신비한 힘이 존재하는 것처럼 느껴질 때가 있죠.
+&lt;테라의 마법의 방&gt;은 그런 작은 신호를 만나보는 공간입니다. ✨
+
+🔮 <b>매주 월요일, 두 개의 카드가 찾아옵니다.</b>
+매주 월요일, 테라가 직접 두 장의 타로 카드를 준비해둘게요.
+그리고 당신은 그중 A 또는 B, 단 하나의 카드를 선택합니다.
+당신이 어떤 카드를 골랐는지 알려주면 테라가 그 카드와 함께 당신에게 건네고 싶은 작은 메시지와 질문들을 보내드릴게요.
+
+그것은 정답을 알려주는 예언이라기보다,
+이번 한 주 동안 내가 무엇을 바라보고, 무엇을 느끼고, 어떤 질문을 품어보면 좋을지 알려주는 작은 나침반 같은 이야기입니다. 🌌
+
+잠시 눈을 감고 밤하늘의 별 하나를 고르듯 천천히 선택해보세요.
+당신을 위한 작은 마법이 어쩌면 이 방 어딘가에 기다리고 있을지도 모르니까요. 🌙✨
+
+🕯️ <b>마법의 방에 당신의 이야기를 남겨주세요.</b>
+아래 입력창에 다음 내용을 함께 적어주세요!
+① 내가 고른 카드 (A 또는 B)
+② 연락받을 방법 (메일주소 📮 또는 인스타그램 DM)
+③ 나이
+④ 요즘 내가 자주 하는 고민
+
+━━━━━━━━━━━━━━━━━━━━
+<b>[작성 예시]</b>
+예시 1) A 카드 / magical@naver.com / 20살 / 대학에 진학하지 못했어요. 앞으로 제 미래가 어떻게 될지 모르겠어요.
+예시 2) B 카드 / @magical / 14살 / 친구들과 오해가 생겼어요. 어떻게 풀어나가야 할지 모르겠어요.</div>
+
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-D" class="comment-input" placeholder="이 이야기에 대한 소감을 남겨주세요..." maxlength="200">
-                    <button id="submit-btn-D" class="comment-submit" onclick="submitComment('D', 'comments_D')">등록</button>
+                    <textarea id="comment-text-D" class="comment-textarea" placeholder="① 선택 카드 / ② 연락처 / ③ 나이 / ④ 요즘 고민&#10;위 형식으로 이야기를 남겨주세요..." maxlength="500"></textarea>
+                    <button id="submit-btn-D" class="comment-submit" onclick="submitComment('D', 'comments_D')">보내기</button>
                 </div>
                 <div id="admin-list-wrapper-D" class="comment-list-wrapper">
                     <h4 style="color: #f43f5e; margin: 0 0 12px 0;">🔒 관리자 전용 뷰어</h4>
@@ -678,24 +718,27 @@
                     button.style.backgroundColor = "#10b981";
                     
                     setTimeout(function() {
-                        button.innerText = "등록";
+                        button.innerText = (sectionCode === 'D') ? "보내기" : "등록";
                         button.disabled = false;
                         button.style.backgroundColor = "";
                     }, 1500);
                 } else {
-                    alert("댓글 등록에 실패했습니다. Firebase 권한을 확인해주세요.");
+                    alert("등록에 실패했습니다. Firebase 권한을 확인해주세요.");
                 }
             });
         }
 
         allSections.forEach(function(sectionCode) {
             const dbPath = 'comments_' + sectionCode;
-            document.getElementById('comment-text-' + sectionCode).addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    event.preventDefault(); 
-                    submitComment(sectionCode, dbPath);
-                }
-            });
+            const inputElem = document.getElementById('comment-text-' + sectionCode);
+            if (inputElem) {
+                inputElem.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter' && !event.shiftKey && sectionCode !== 'D') {
+                        event.preventDefault(); 
+                        submitComment(sectionCode, dbPath);
+                    }
+                });
+            }
         });
     </script>
 </body>
