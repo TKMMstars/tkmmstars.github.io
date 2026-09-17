@@ -353,13 +353,14 @@
     <!-- 최상단 고정 메시지 뷰어 -->
     <div class="top-message-container">
         <div class="top-message-box">
-            안녕하세요! 이곳을 방문해주셔서 진심으로 환영합니다.<br>
-            이 공간은 편안하게 이야기를 둘러보고 나누는 곳입니다. 편안한 시간 되세요! 😊
+            안녕하세요! 이곳을 방문해주셔서 진심으로 환영합니다. 이곳은   이야기를 나누는 공간입니다. 
+            각 방의 주인들이 직접 남겨놓은 메세지와 노래들도 준비되어있어요😊
+            자유롭게 둘러보고, 당신의 이야기도 함께 남겨주세요. 그럼 편안한 시간 되세요!
         </div>
     </div>
 
-    <h1 class="main-title">나만의 이야기 스테이션</h1>
-    <p class="sub-title">원하는 카드를 클릭하여 숨겨진 이야기를 확인해보세요.</p>
+    <h1 class="main-title"> 이야기 스테이션</h1>
+    <p class="sub-title">원하는 방을 클릭하여 숨겨진 이야기를 확인해보세요.</p>
 
     <!-- 카드 영역 -->
     <div class="station-grid">
@@ -392,7 +393,7 @@
         <div class="modal-content theme-A">
             <span class="close-btn" onclick="closeModal('A')">&times;</span>
             <h2>🍎 봉당홍당이네 과일집</h2>
-            <button id="bgm-btn-A" class="bgm-btn" onclick="toggleBgm('A')">▶️ BGM 재생</button>
+            <button id="bgm-btn-A" class="bgm-btn" onclick="toggleBgm('A')">▶️ 노래듣기</button>
             <div class="message-display">From. 과일장수🍏
 
 여기까지 찾아온 걸 환영해.
@@ -404,7 +405,7 @@
 To. 너에게</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-A" class="comment-input" placeholder="당신의 이야기를 편하게 적어주세요. 제가 보내드릴 답장을 받을 수 있는 E-mail 주소도 하나 남겨주세요." maxlength="200">
+                    <input type="text" id="comment-text-A" class="comment-input" placeholder="당신의 이야기와 메일주소를 남겨주세요." maxlength="200">
                     <button id="submit-btn-A" class="comment-submit" onclick="submitComment('A', 'comments_A')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-A" class="comment-list-wrapper">
@@ -420,7 +421,7 @@ To. 너에게</div>
         <div class="modal-content theme-B">
             <span class="close-btn" onclick="closeModal('B')">&times;</span>
             <h2>🪨 동굴</h2>
-            <button id="bgm-btn-B" class="bgm-btn" onclick="toggleBgm('B')">▶️ BGM 재생</button>
+            <button id="bgm-btn-B" class="bgm-btn" onclick="toggleBgm('B')">▶️ 노래듣기</button>
             <div class="message-display">여기선 조금 더 편하게,
 하고 싶었던 이야기를 여기다 털어놓고 가세요.
 꼭 거창한 이야기일 필요도, 깔끔하게 정리해서 적을 필요도 없어요. 
@@ -429,7 +430,7 @@ To. 너에게</div>
 답을 꼭 찾지 않아도 괜찮아요. 그냥 이야기하고 가세요.</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-B" class="comment-input" placeholder="당신의 이야기를 편하게 적어주세요. 제가 보내드릴 답장을 받을 수 있는 E-mail 주소도 하나 남겨주세요." maxlength="200">
+                    <input type="text" id="comment-text-B" class="comment-input" placeholder="당신의 이야기와 메일주소를 남겨주세요." maxlength="200">
                     <button id="submit-btn-B" class="comment-submit" onclick="submitComment('B', 'comments_B')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-B" class="comment-list-wrapper">
@@ -445,11 +446,11 @@ To. 너에게</div>
         <div class="modal-content theme-C">
             <span class="close-btn" onclick="closeModal('C')">&times;</span>
             <h2>💻 센터</h2>
-            <button id="bgm-btn-C" class="bgm-btn" onclick="toggleBgm('C')">▶️ BGM 재생</button>
+            <button id="bgm-btn-C" class="bgm-btn" onclick="toggleBgm('C')">▶️ 노래듣기</button>
             <div class="message-display">여기에 세 번째 긴 이야기를 적어주시면 됩니다.</div>
             <div class="comment-section">
                 <div class="comment-form">
-                    <input type="text" id="comment-text-C" class="comment-input" placeholder="당신의 이야기를 편하게 적어주세요. 제가 보내드릴 답장을 받을 수 있는 E-mail 주소도 하나 남겨주세요." maxlength="500">
+                    <input type="text" id="comment-text-C" class="comment-input" placeholder="당신의 이야기와 메일주소를 남겨주세요." maxlength="500">
                     <button id="submit-btn-C" class="comment-submit" onclick="submitComment('C', 'comments_C')">등록</button>
                 </div>
                 <div id="admin-list-wrapper-C" class="comment-list-wrapper">
@@ -465,7 +466,7 @@ To. 너에게</div>
         <div class="modal-content theme-D">
             <span class="close-btn" onclick="closeModal('D')">&times;</span>
             <h2>🌙 테라의 &lt;마법의 방&gt;</h2>
-            <button id="bgm-btn-D" class="bgm-btn" onclick="toggleBgm('D')">▶️ BGM 재생</button>
+            <button id="bgm-btn-D" class="bgm-btn" onclick="toggleBgm('D')">▶️ 노래듣기</button>
             
             <div class="message-display">당신은 마법을 믿어본 적이 있나요?
 마법의 세계가 정말 어딘가에 존재할지도 모른다는 것.
