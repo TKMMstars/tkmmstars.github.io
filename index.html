@@ -565,7 +565,7 @@ To. 너에게</div>
 
             if(isPlayerReady && bgmList[sectionCode]) {
                 player.cueVideoById(bgmList[sectionCode]);
-                document.getElementById('bgm-btn-' + sectionCode).innerHTML = "▶️ BGM 재생";
+                document.getElementById('bgm-btn-' + sectionCode).innerHTML = "▶️ 노래듣기";
             }
         }
 
@@ -575,7 +575,7 @@ To. 너에게</div>
 
             if(isPlayerReady && player.stopVideo) {
                 player.stopVideo();
-                document.getElementById('bgm-btn-' + sectionCode).innerHTML = "▶️ BGM 재생";
+                document.getElementById('bgm-btn-' + sectionCode).innerHTML = "▶️ 노래듣기";
             }
         }
 
@@ -602,10 +602,10 @@ To. 너에게</div>
             
             if (state === YT.PlayerState.PLAYING) {
                 player.pauseVideo();
-                btn.innerHTML = "▶️ BGM 재생";
+                btn.innerHTML = "▶️ 노래듣기";
             } else {
                 player.playVideo();
-                btn.innerHTML = "⏸️ BGM 일시정지";
+                btn.innerHTML = "⏸️ 노래 일시정지";
             }
         }
 
